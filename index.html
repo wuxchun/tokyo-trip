@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>2026 东京春季旅行</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        /* ========== Root & Base ========== */
+        :root {
+            --cream: #FDF6F0;
+            --sakura: #F8A5B8;
+            --sakura-light: #FCE4EC;
+            --sakura-dark: #E8829A;
+            --charcoal: #2D2D2D;
+            --warm-gray: #6B5B4F;
+            --light-gray: #E8E0D8;
+            --gold: #D4A574;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Sans SC", "Hiragino Sans", "Yu Gothic", "Microsoft YaHei", sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.7;
+            letter-spacing: 0.02em;
+            font-size: 16px;
+        }
+
+        /* ========== Scrollbar ========== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--sakura);
+            border-radius: 3px;
+        }
+
+        /* ========== Load Noto Sans SC ========== */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+        /* ==================== SCROLL REVEAL ANIMATION ==================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+        .reveal-delay-2 {
+            transition-delay: 0.25s;
+        }
+        .reveal-delay-3 {
+            transition-delay: 0.4s;
+        }
+        .reveal-delay-4 {
+            transition-delay: 0.55s;
+        }
+        .reveal-delay-5 {
+            transition-delay: 0.7s;
+        }
+        .reveal-delay-6 {
+            transition-delay: 0.85s;
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            position: relative;
+            min-height: 45vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2D2D2D 0%, #4A3F3A 40%, #6B5B4F 100%);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(248, 165, 184, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 165, 116, 0.10) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-sakura-container {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .hero-sakura {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: var(--sakura);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.3;
+            animation: fall linear infinite;
+        }
+        .hero-sakura:nth-child(1) {
+            left: 5%;
+            animation-duration: 12s;
+            animation-delay: 0s;
+            width: 14px;
+            height: 14px;
+            opacity: 0.25;
+        }
+        .hero-sakura:nth-child(2) {
+            left: 20%;
+            animation-duration: 15s;
+            animation-delay: 2s;
+            width: 10px;
+            height: 10px;
+            opacity: 0.2;
+        }
+        .hero-sakura:nth-child(3) {
+            left: 40%;
+            animation-duration: 11s;
+            animation-delay: 4s;
+            width: 16px;
+            height: 16px;
+            opacity: 0.3;
+        }
+        .hero-sakura:nth-child(4) {
+            left: 55%;
+            animation-duration: 14s;
+            animation-delay: 1s;
+            width: 12px;
+            height: 12px;
+            opacity: 0.2;
+        }
+        .hero-sakura:nth-child(5) {
+            left: 70%;
+            animation-duration: 13s;
+            animation-delay: 3s;
+            width: 15px;
+            height: 15px;
+            opacity: 0.25;
+        }
+        .hero-sakura:nth-child(6) {
+            left: 88%;
+            animation-duration: 16s;
+            animation-delay: 5s;
+            width: 11px;
+            height: 11px;
+            opacity: 0.2;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-30px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(calc(45vh + 20px)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+        .hero-sub {
+            font-size: 1rem;
+            letter-spacing: 0.5em;
+            color: var(--sakura);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+        .hero-title {
+            font-size: clamp(2rem, 7vw, 3.6rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+        .hero-title .highlight {
+            color: var(--sakura);
+        }
+        .hero-desc {
+            font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+        }
+        .hero-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--sakura);
+            margin: 1rem auto;
+            border-radius: 1px;
+        }
+
+        /* ========== Section ========== */
+        .section-container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--sakura-light);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-title i {
+            color: var(--sakura);
+            font-size: 1.3rem;
+        }
+
+        /* ========== Weather ========== */
+        .weather-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: #fff;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .weather-card::after {
+            content: '☀️';
+            position: absolute;
+            right: -10px;
+            top: -20px;
+            font-size: 8rem;
+            opacity: 0.12;
+            transform: rotate(20deg);
+        }
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .weather-city {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .weather-date {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+        .weather-day {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 0.6rem 0.3rem;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s;
+        }
+        .weather-day:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .weather-day .day-label {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+        .weather-day .day-icon {
+            font-size: 1.4rem;
+            margin: 2px 0;
+        }
+        .weather-day .day-temp {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .weather-note {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 0.6rem;
+        }
+
+        /* ========== Day Card ========== */
+        .day-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(232, 224, 216, 0.5);
+            transition: box-shadow 0.3s;
+        }
+        .day-card:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+        }
+
+        .day-header {
+            padding: 1.2rem 1.2rem 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .day-label {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .day-number {
+            background: var(--sakura);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .day-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .day-date {
+            font-size: 0.85rem;
+            color: var(--warm-gray);
+            background: var(--cream);
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        /* ========== Timeline ========== */
+        .timeline {
+            padding: 0.5rem 0;
+        }
+        .timeline-item {
+            display: flex;
+            padding: 1rem 1.2rem;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .timeline-item:hover {
+            background: rgba(248, 165, 184, 0.04);
+        }
+
+        /* left dot line */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 26px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--light-gray);
+            z-index: 0;
+        }
+        .timeline-item:first-child::before {
+            top: 2rem;
+        }
+        .timeline-item:last-child::before {
+            bottom: 1.5rem;
+        }
+
+        .timeline-time {
+            width: 90px;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold);
+            padding: 0.1rem 0 0 18px;
+            letter-spacing: 0.02em;
+            position: relative;
+            z-index: 1;
+            line-height: 1.5;
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--sakura);
+            flex-shrink: 0;
+            margin: 0.3rem 0.8rem 0 0;
+            position: relative;
+            z-index: 1;
+            border: 2px solid var(--card-bg);
+            box-shadow: 0 0 0 2px var(--sakura-light);
+        }
+        .timeline-dot.accent {
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.3);
+        }
+
+        .timeline-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .timeline-content .title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--charcoal);
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.5rem;
+        }
+        .timeline-content .desc {
+            font-size: 0.88rem;
+            color: #666;
+            margin-top: 0.3rem;
+            line-height: 1.7;
+        }
+        .timeline-content .desc i {
+            margin-right: 0.25rem;
+            opacity: 0.6;
+        }
+        .timeline-content .sub-info {
+            font-size: 0.82rem;
+            color: var(--warm-gray);
+            margin-top: 0.2rem;
+            padding-left: 0.5rem;
+            border-left: 2px solid var(--sakura-light);
+            font-weight: 300;
+        }
+
+        /* ========== Badge ========== */
+        .badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            background: var(--sakura-light);
+            color: #B05A6F;
+            white-space: nowrap;
+            line-height: 1.4;
+        }
+        .badge.budget {
+            background: #FFF3E0;
+            color: #BF8C4A;
+        }
+        .badge.alt {
+            background: #E8F5E9;
+            color: #558B2F;
+            font-weight: 400;
+        }
+
+        /* ========== Map Button ========== */
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.72rem;
+            color: #4285F4;
+            background: rgba(66, 133, 244, 0.08);
+            padding: 0.15rem 0.6rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+        .map-btn:hover {
+            background: rgba(66, 133, 244, 0.18);
+            color: #2B6CB0;
+        }
+        .map-btn i {
+            font-size: 0.75rem;
+        }
+
+        /* ========== Tips Section ========== */
+        .tip-item {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+        .tip-badge {
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+        }
+        .tip-text {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+            line-height: 1.6;
+        }
+
+        /* ========== Footer ========== */
+        .site-footer {
+            text-align: center;
+            padding: 2.5rem 1rem 2rem;
+            color: var(--warm-gray);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--light-gray);
+            margin-top: 1rem;
+        }
+        .site-footer .footer-sakura {
+            font-size: 1rem;
+            color: var(--sakura);
+        }
+
+        /* ========== Responsive (Mobile) ========== */
+        @media (max-width: 480px) {
+            body {
+                font-size: 15px;
+            }
+            .section-container {
+                padding: 1.2rem 0.75rem;
+            }
+            .timeline-item {
+                padding: 0.9rem 0.75rem;
+            }
+            .timeline-time {
+                width: 78px;
+                font-size: 0.78rem;
+            }
+            .timeline-content .desc {
+                font-size: 0.82rem;
+            }
+            .timeline-content .sub-info {
+                font-size: 0.78rem;
+            }
+            .weather-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 4px;
+            }
+            .weather-day {
+                padding: 0.4rem 0.2rem;
+            }
+            .weather-day .day-icon {
+                font-size: 1.2rem;
+            }
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.4rem;
+            }
+            .day-date {
+                align-self: flex-start;
+            }
+            .map-btn {
+                font-size: 0.65rem;
+                padding: 0.12rem 0.5rem;
+            }
+            .badge {
+                font-size: 0.65rem;
+                padding: 0.12rem 0.5rem;
+            }
+            .section-title {
+                font-size: 1.25rem;
+            }
+            .day-title {
+                font-size: 1rem;
+            }
+            .hero-sub {
+                font-size: 0.85rem;
+            }
+            .hero-desc {
+                font-size: 0.85rem;
+            }
+            .weather-city {
+                font-size: 1rem;
+            }
+            .weather-date {
+                font-size: 0.75rem;
+            }
+            .weather-note {
+                font-size: 0.72rem;
+            }
+            .tip-badge {
+                font-size: 0.75rem;
+            }
+            .tip-text {
+                font-size: 0.82rem;
+            }
+            .site-footer {
+                font-size: 0.72rem;
+            }
+        }
+
+        /* ========== Print ========== */
+        @media print {
+            .hero {
+                min-height: auto;
+                padding: 1rem;
+            }
+            .map-btn {
+                display: none;
+            }
+            .weather-card {
+                break-inside: avoid;
+            }
+            .day-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HERO ==================== -->
+    <header class="hero">
+        <div class="hero-sakura-container">
+            <div class="hero-sakura"></div>
+            <div class="hero-sakura"></div>
+            <div class="hero-sakura"></div>
+            <div class="hero-sakura"></div>
+            <div class="hero-sakura"></div>
+            <div class="hero-sakura"></div>
+        </div>
+        <div class="hero-content">
+            <p class="hero-sub">Spring Journey 2026</p>
+            <h1 class="hero-title">
+                2026 <span class="highlight">东京</span>春季旅行
+            </h1>
+            <div class="hero-divider"></div>
+            <p class="hero-desc">
+                三日限定 · 樱花落尽后的和风巡礼
+            </p>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN ==================== -->
+    <main class="section-container">
+
+        <!-- ======= Weather ======= -->
+        <section aria-label="天气预报">
+            <h2 class="section-title reveal">
+                <i class="fa-solid fa-cloud-sun"></i> 五月东京天气
+            </h2>
+            <div class="weather-card reveal">
+                <div class="weather-header">
+                    <span class="weather-city"><i class="fa-solid fa-location-dot"></i> 东京</span>
+                    <span class="weather-date">2026年5月2日 — 5月4日</span>
+                </div>
+                <div class="weather-grid">
+                    <div class="weather-day">
+                        <div class="day-label">5/2</div>
+                        <div class="day-icon">⛅</div>
+                        <div class="day-temp">21° / 15°</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-label">5/3</div>
+                        <div class="day-icon">🌤️</div>
+                        <div class="day-temp">23° / 16°</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-label">5/4</div>
+                        <div class="day-icon">☀️</div>
+                        <div class="day-temp">25° / 18°</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-label">5/5</div>
+                        <div class="day-icon">🌦️</div>
+                        <div class="day-temp">22° / 16°</div>
+                    </div>
+                    <div class="weather-day">
+                        <div class="day-label">5/6</div>
+                        <div class="day-icon">⛅</div>
+                        <div class="day-temp">20° / 14°</div>
+                    </div>
+                </div>
+                <div class="weather-note">
+                    <i class="fa-solid fa-umbrella"></i> 建议随身携带薄外套与折叠伞 · 平均降雨概率 35%
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= Day 1 ======= -->
+        <section aria-label="第一天行程">
+            <h2 class="section-title reveal reveal-delay-1">
+                <i class="fa-solid fa-route"></i> Day 1 — 抵达 · 浅草与涩谷夜
+                <span style="font-size:0.75rem; font-weight:400; color:var(--warm-gray); margin-left:auto;">5月2日（周六）</span>
+            </h2>
+
+            <div class="day-card reveal reveal-delay-1">
+                <div class="timeline">
+
+                    <!-- 13:30 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">13:30 – 15:00</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                上野酒店 Check-in / 寄存行李
+                                <a class="map-btn" href="https://map.baidu.com/search/上野/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-lightbulb"></i> 办理完手续后，乘坐银座线前往浅草
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 15:30 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">15:30 – 17:30</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                浅草散步 + 隅田川游船 (Water Bus)
+                                <a class="map-btn" href="https://map.baidu.com/search/浅草/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-eye"></i> 浅草寺雷门快速打卡 → 码头乘坐水上巴士
+                            </div>
+                            <div class="sub-info">
+                                在船内观赏两岸的晴空塔和都市风景
+                                <a class="map-btn" href="https://map.baidu.com/search/隅田川/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 18:00 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">18:00 – 19:30</span>
+                        <span class="timeline-dot accent"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                涩谷晚餐（精致日本料理）
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 人均 ¥3,000–5,000</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/涩谷/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-store"></i> 备选：宫崎料理 万作（涩谷 Hikarie 店）
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 20:00 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">20:00 – 21:00</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                SHIBUYA SKY 看夜景
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 门票 ¥2,000</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/SHIBUYA%20SKY/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-star"></i> 东京最受欢迎的露天展望台之一
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= Day 2 ======= -->
+        <section aria-label="第二天行程">
+            <h2 class="section-title reveal reveal-delay-2">
+                <i class="fa-solid fa-route"></i> Day 2 — 皇居 · 庭园与烤肉
+                <span style="font-size:0.75rem; font-weight:400; color:var(--warm-gray); margin-left:auto;">5月3日（周日）</span>
+            </h2>
+
+            <div class="day-card reveal reveal-delay-2">
+                <div class="timeline">
+
+                    <!-- 09:30 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">09:30 – 11:30</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                皇居东御苑（大手门进出）
+                                <span class="badge budget">免费</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/皇居东御苑/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-tree"></i> 漫步江户城遗迹，感受日本庭园之美
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11:45 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">11:45 – 13:00</span>
+                        <span class="timeline-dot accent"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                午餐：炭火烤鱼定食
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 人均 ¥2,000–3,000</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/越后屋正隆/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-store"></i> 备选：越后屋 正隆 (Echigoya Masataka)
+                            </div>
+                            <div class="sub-info">
+                                炭火慢烤，外酥里嫩，配米饭与味噌汤
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 14:00 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">14:00 – 15:45</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                祖师谷大藏 —— 奥特曼大街
+                                <a class="map-btn" href="https://map.baidu.com/search/祖师谷大藏/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-face-smile"></i> 奥特曼主题街区，适合拍照打卡
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 16:30 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">16:30 – 18:30</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                椿山庄 (Hotel Chinzanso Tokyo) — 日式庭园
+                                <a class="map-btn" href="https://map.baidu.com/search/椿山庄%20Hotel%20Chinzanso%20Tokyo/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-leaf"></i> 东京首屈一指的日式庭园，三百年古树与瀑布池泉
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 19:00 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">19:00 – 20:30</span>
+                        <span class="timeline-dot accent"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                晚餐：烤肉
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 人均 ¥4,000–6,000</span>
+                                <span class="badge alt">TBD</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/涩谷%20烤肉/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-clock"></i> 备选店铺待定，将在椿山庄附近选择
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= Day 3 ======= -->
+        <section aria-label="第三天行程">
+            <h2 class="section-title reveal reveal-delay-3">
+                <i class="fa-solid fa-route"></i> Day 3 — 镰仓 · 禅意与海风
+                <span style="font-size:0.75rem; font-weight:400; color:var(--warm-gray); margin-left:auto;">5月4日（周一）</span>
+            </h2>
+
+            <div class="day-card reveal reveal-delay-3">
+                <div class="timeline">
+
+                    <!-- 08:30 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">08:30 – 10:00</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                移动：从上野出发前往镰仓
+                                <a class="map-btn" href="https://map.baidu.com/search/镰仓/神奈川" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-train-subway"></i> 约1小时30分钟车程，JR横须贺线直达
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 10:15 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">10:15 – 11:30</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                报国寺 (Hokokuji)
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 参拜 ¥300</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/报国寺/镰仓" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-tree"></i> 竹林古寺，在竹林中品抹茶
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 11:45 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">11:45 – 13:00</span>
+                        <span class="timeline-dot accent"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                镰仓逛逛吃吃（小町通 & 若宫大路）
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 人均 ¥1,500–2,500</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/小町通/镰仓" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-utensils"></i> 🥟 镰仓点心猪肉包 · 🕊️ 丰岛屋鸽子饼
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 13:15 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">13:15 – 14:15</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                镰仓大佛（高德院）
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 参拜 ¥300</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/镰仓大佛/镰仓" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-person-walking"></i> 步行或乘坐江之电前往
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 14:45 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">14:45 – 16:30</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                江之岛看海
+                                <a class="map-btn" href="https://map.baidu.com/search/江之岛/神奈川" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-sailboat"></i> 乘扶梯 (Escar) 直达山顶 → 岛背后稚儿之渊看太平洋巨浪
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 17:00 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">17:00 – 18:30</span>
+                        <span class="timeline-dot"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                返回上野
+                                <a class="map-btn" href="https://map.baidu.com/search/上野/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-train"></i> 片濑江之岛站 → 小田急浪漫特快 (Romancecar) → 新宿
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 19:00 -->
+                    <div class="timeline-item">
+                        <span class="timeline-time">19:00 – 20:30</span>
+                        <span class="timeline-dot accent"></span>
+                        <div class="timeline-content">
+                            <div class="title">
+                                晚餐：釜饭 (Kamameshi)
+                                <span class="badge budget"><i class="fa-solid fa-yen-sign"></i> 人均 ¥2,000–3,500</span>
+                                <a class="map-btn" href="https://map.baidu.com/search/田甫草津%20浅草/东京" target="_blank" rel="noopener">
+                                    <i class="fa-solid fa-map-location-dot"></i> 地图
+                                </a>
+                            </div>
+                            <div class="desc">
+                                <i class="fa-solid fa-store"></i> 推荐：浅草 田甫草津 (Tanbo Kusatsu)
+                            </div>
+                            <div class="sub-info">
+                                传统釜饭，米饭在陶锅中现煮，搭配时令食材，暖心暖胃
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= Tips ======= -->
+        <section aria-label="出行小贴士">
+            <h2 class="section-title reveal reveal-delay-4">
+                <i class="fa-solid fa-circle-info"></i> 出行小贴士
+            </h2>
+            <div class="day-card reveal reveal-delay-4" style="padding: 1rem 1.2rem;">
+                <div class="tip-item">
+                    <span class="badge tip-badge" style="background:#E3F2FD; color:#1565C0;">🚃 交通</span>
+                    <span class="tip-text">推荐 Suica / Pasmo 交通卡，手机绑定即可刷</span>
+                </div>
+                <div class="tip-item">
+                    <span class="badge tip-badge" style="background:#F3E5F5; color:#7B1FA2;">📱 网络</span>
+                    <span class="tip-text">提前购买 eSIM 或随身WiFi，确保全程在线</span>
+                </div>
+                <div class="tip-item">
+                    <span class="badge tip-badge" style="background:#FFF8E1; color:#F57F17;">🌤️ 天气</span>
+                    <span class="tip-text">5月初气温 15–25°C，建议洋葱式穿搭，备薄外套</span>
+                </div>
+                <div class="tip-item">
+                    <span class="badge tip-badge" style="background:#E8F5E9; color:#2E7D32;">💴 支付</span>
+                    <span class="tip-text">许多小店仅收现金，建议提前兑换好日币</span>
+                </div>
+                <div class="tip-item" style="margin-bottom:0;">
+                    <span class="badge tip-badge" style="background:#FCE4EC; color:#C62828;">🏥 应急</span>
+                    <span class="tip-text">记下中国驻日大使馆电话：03-3403-3064</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer reveal reveal-delay-5">
+        <p class="footer-sakura">🌸</p>
+        <p>2026 东京春季旅行 · 愿你旅途愉快</p>
+        <p style="margin-top:0.3rem; opacity:0.6;">Made with ❤️ for family</p>
+    </footer>
+
+    <!-- ==================== SCROLL REVEAL SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ===== Scroll Reveal =====
+            const revealElements = document.querySelectorAll('.reveal');
+
+            // Options for the Intersection Observer
+            const observerOptions = {
+                root: null,           // viewport
+                rootMargin: '0px 0px -80px 0px',
+                threshold: 0.1
+            };
+
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Once revealed, stop observing to save resources
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(function(el) {
+                revealObserver.observe(el);
+            });
+
+            // ===== Hero entrance: reveal immediately =====
+            // Hero elements should be visible from the start
+            console.log('🌸 2026 东京春季旅行 itinerary loaded');
+
+        });
+    </script>
+</body>
+</html>
