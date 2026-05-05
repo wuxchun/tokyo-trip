@@ -77,11 +77,13 @@ df['金额_CNY'] = df.apply(calc_cny, axis=1)
 total_jpy = df['金额_JPY'].sum()
 total_cny = df['金额_CNY'].sum()
 relative_pay = total_cny * 2 / 3  # 亲戚需转账金额
+per_person_cny = total_cny / 3  # 人均花费
 
 print(f"\n========== 费用汇总 ==========")
 print(f"日元总费用: ¥{total_jpy:,.2f} JPY")
 print(f"人民币总费用: ¥{total_cny:,.2f} CNY")
 print(f"亲戚需转账金额 (2/3): ¥{relative_pay:,.2f} CNY")
+print(f"人均花费: ¥{per_person_cny:,.2f} CNY")
 
 # ========== 4. 按日期和类别汇总 ==========
 # 按日期汇总
@@ -115,7 +117,7 @@ category_data = {
     "values": [round(v, 2) for v in category_sum['总费用_JPY'].tolist()] if not category_sum.empty else []
 }
 
-# ========== 6. 生成 HTML 表格 ==========
+# ========== 6. 生成 HTML 表格（参照 expen_mon-rpt 风格）==========
 table_cols = []
 for col in [date_col, item_col, category_col, amount_col, currency_col]:
     if col and col not in table_cols:
@@ -123,15 +125,27 @@ for col in [date_col, item_col, category_col, amount_col, currency_col]:
 
 table_cols_extended = table_cols + ['金额_JPY', '金额_CNY']
 
+# 分类颜色映射
+category_colors = {
+    '餐饮': '#F8A5B8',
+    '交通': '#667eea',
+    '门票': '#D4A574',
+    '祈福': '#43e97b',
+}
+
 html_table_rows = ""
 for _, row in df.iterrows():
+    cat = str(row.get(category_col, ''))
+    cat_color = category_colors.get(cat, '#94a3b8')
     html_table_rows += "<tr>"
     for col in table_cols_extended:
         val = row[col]
         if col in ['金额_JPY', '金额_CNY']:
-            html_table_rows += f'<td style="text-align:right;">¥{val:,.2f}</td>'
+            html_table_rows += f'<td class="text-right">¥{val:,.2f}</td>'
         elif col == amount_col:
-            html_table_rows += f'<td style="text-align:right;">{val:,.2f}</td>'
+            html_table_rows += f'<td class="text-right">{val:,.2f}</td>'
+        elif col == category_col:
+            html_table_rows += f'<td><span class="category-badge" style="border-color:{cat_color};color:{cat_color};">{val}</span></td>'
         else:
             html_table_rows += f'<td>{val}</td>'
     html_table_rows += "</tr>\n"
@@ -161,12 +175,12 @@ append_html = f"""
             </h3>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
                 <div style="background:linear-gradient(135deg, #667eea, #764ba2); border-radius:12px; padding:1rem; color:#fff; text-align:center;">
-                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem;">日元总费用</div>
+                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem;">日元总费用（汇率换算后）</div>
                     <div style="font-size:1.6rem; font-weight:700;">¥{total_jpy:,.0f}</div>
                     <div style="font-size:0.75rem; opacity:0.7;">JPY</div>
                 </div>
                 <div style="background:linear-gradient(135deg, #f093fb, #f5576c); border-radius:12px; padding:1rem; color:#fff; text-align:center;">
-                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem;">人民币总费用</div>
+                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem;">人民币总费用（汇率换算后）</div>
                     <div style="font-size:1.6rem; font-weight:700;">¥{total_cny:,.2f}</div>
                     <div style="font-size:0.75rem; opacity:0.7;">CNY</div>
                 </div>
@@ -174,6 +188,11 @@ append_html = f"""
                     <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem; font-weight:600;">💰 亲戚需转账金额</div>
                     <div style="font-size:1.8rem; font-weight:900; color:#e74c3c;">¥{relative_pay:,.2f}</div>
                     <div style="font-size:0.75rem; opacity:0.7;">CNY（总费用 × 2/3）</div>
+                </div>
+                <div style="background:linear-gradient(135deg, #ffecd2, #fcb69f); border-radius:12px; padding:1rem; color:#1a1a2e; text-align:center;">
+                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem; font-weight:600;">👤 人均花费</div>
+                    <div style="font-size:1.6rem; font-weight:700; color:#8b5cf6;">¥{per_person_cny:,.2f}</div>
+                    <div style="font-size:0.75rem; opacity:0.7;">CNY（总费用 ÷ 3人）</div>
                 </div>
             </div>
             <div style="margin-top:0.8rem; font-size:0.8rem; color:var(--warm-gray); text-align:center;">
@@ -192,19 +211,24 @@ append_html = f"""
             </div>
         </div>
 
-        <!-- 原始明细表 -->
-        <div class="day-card reveal reveal-delay-6" style="padding: 1.5rem; overflow-x: auto;">
-            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem; color:var(--charcoal);">
-                <i class="fa-solid fa-table"></i> 原始费用明细
-            </h3>
-            <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
-                <thead>
-                    {html_table_header}
-                </thead>
-                <tbody>
-                    {html_table_rows}
-                </tbody>
-            </table>
+        <!-- 原始明细表（参照 expen_mon-rpt 风格） -->
+        <div class="day-card reveal reveal-delay-6" style="padding: 0; overflow: hidden;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid #eef2f6;">
+                <h3 style="font-size:14px; font-weight:600; color:#475569; margin:0;">
+                    <i class="fa-solid fa-table"></i> 原始费用明细
+                </h3>
+                <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:#94a3b8;">共 {len(df)} 笔记录</span>
+            </div>
+            <div style="overflow-x: auto;">
+                <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                    <thead>
+                        {html_table_header}
+                    </thead>
+                    <tbody>
+                        {html_table_rows}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 """
@@ -212,7 +236,7 @@ append_html = f"""
 # ========== 8. 追加到 index.html ==========
 index_path = r"C:\AI\VS Code\Cline Study\51-travel-2026\index.html"
 
-with open(index_path, 'r', encoding='utf-8') as f:
+with open(index_path, 'r', encoding='utf-16') as f:
     content = f.read()
 
 # 在 </main> 之前插入
@@ -222,7 +246,7 @@ if insert_pos == -1:
 
 new_content = content[:insert_pos] + append_html + content[insert_pos:]
 
-with open(index_path, 'w', encoding='utf-8') as f:
+with open(index_path, 'w', encoding='utf-16') as f:
     f.write(new_content)
 
 print(f"\n✅ 已成功追加费用明细到 index.html")
@@ -337,13 +361,13 @@ echarts_script = """
 """
 
 # 在 </body> 之前插入 ECharts 脚本
-with open(index_path, 'r', encoding='utf-8') as f:
+with open(index_path, 'r', encoding='utf-16') as f:
     current_content = f.read()
 
 insert_pos_body = current_content.rfind('</body>')
 final_content = current_content[:insert_pos_body] + echarts_script + current_content[insert_pos_body:]
 
-with open(index_path, 'w', encoding='utf-8') as f:
+with open(index_path, 'w', encoding='utf-16') as f:
     f.write(final_content)
 
 print(f"✅ 已成功插入 ECharts 图表脚本到 index.html")
