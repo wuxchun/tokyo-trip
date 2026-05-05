@@ -236,6 +236,7 @@ append_html = f"""
 # ========== 8. 追加到 index.html ==========
 index_path = r"C:\AI\VS Code\Cline Study\51-travel-2026\index.html"
 
+# 读取原始文件（UTF-16 LE with BOM）
 with open(index_path, 'r', encoding='utf-16') as f:
     content = f.read()
 
@@ -246,8 +247,10 @@ if insert_pos == -1:
 
 new_content = content[:insert_pos] + append_html + content[insert_pos:]
 
-with open(index_path, 'w', encoding='utf-16') as f:
-    f.write(new_content)
+# 写入时使用 utf-16-le 并手动添加 BOM，确保编码与原始文件一致
+with open(index_path, 'wb') as f:
+    f.write(b'\xff\xfe')  # UTF-16 LE BOM
+    f.write(new_content.encode('utf-16-le'))
 
 print(f"\n✅ 已成功追加费用明细到 index.html")
 
@@ -367,8 +370,10 @@ with open(index_path, 'r', encoding='utf-16') as f:
 insert_pos_body = current_content.rfind('</body>')
 final_content = current_content[:insert_pos_body] + echarts_script + current_content[insert_pos_body:]
 
-with open(index_path, 'w', encoding='utf-16') as f:
-    f.write(final_content)
+# 写入时使用 utf-16-le 并手动添加 BOM
+with open(index_path, 'wb') as f:
+    f.write(b'\xff\xfe')  # UTF-16 LE BOM
+    f.write(final_content.encode('utf-16-le'))
 
 print(f"✅ 已成功插入 ECharts 图表脚本到 index.html")
 print(f"\n🎉 所有操作完成！")
