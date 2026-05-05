@@ -1099,7 +1099,87 @@
             </div>
         </section>
 
-    </main>
+    
+    <!-- ======= 旅游费用明细与结算 ======= -->
+    <section aria-label="旅游费用明细与结算" style="margin-top: 3rem;">
+        <h2 class="section-title reveal reveal-delay-4">
+            <i class="fa-solid fa-calculator"></i> 旅游费用明细与结算
+        </h2>
+
+        <!-- 费用结算区 -->
+        <div class="day-card reveal reveal-delay-4" style="padding: 1.5rem;">
+            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem; color:var(--charcoal);">
+                <i class="fa-solid fa-file-invoice-dollar"></i> 费用汇总
+            </h3>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem;">
+                <div style="background:linear-gradient(135deg, #667eea, #764ba2); border-radius:12px; padding:1rem; color:#fff; text-align:center;">
+                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem;">日元总费用</div>
+                    <div style="font-size:1.6rem; font-weight:700;">¥96,090</div>
+                    <div style="font-size:0.75rem; opacity:0.7;">JPY</div>
+                </div>
+                <div style="background:linear-gradient(135deg, #f093fb, #f5576c); border-radius:12px; padding:1rem; color:#fff; text-align:center;">
+                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem;">人民币总费用</div>
+                    <div style="font-size:1.6rem; font-weight:700;">¥4,177.05</div>
+                    <div style="font-size:0.75rem; opacity:0.7;">CNY</div>
+                </div>
+                <div style="background:linear-gradient(135deg, #43e97b, #38f9d7); border-radius:12px; padding:1rem; color:#1a1a2e; text-align:center; border:2px solid #f8a5b8;">
+                    <div style="font-size:0.85rem; opacity:0.8; margin-bottom:0.3rem; font-weight:600;">💰 亲戚需转账金额</div>
+                    <div style="font-size:1.8rem; font-weight:900; color:#e74c3c;">¥2,784.70</div>
+                    <div style="font-size:0.75rem; opacity:0.7;">CNY（总费用 × 2/3）</div>
+                </div>
+            </div>
+            <div style="margin-top:0.8rem; font-size:0.8rem; color:var(--warm-gray); text-align:center;">
+                汇率：1 JPY = 0.04347 CNY &nbsp;|&nbsp; 1 CNY = 23.004 JPY &nbsp;|&nbsp; 费用由我统一垫付，共3人AA
+            </div>
+        </div>
+
+        <!-- 数据图表区 -->
+        <div class="day-card reveal reveal-delay-5" style="padding: 1.5rem;">
+            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem; color:var(--charcoal);">
+                <i class="fa-solid fa-chart-bar"></i> 数据分析图表
+            </h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div id="dailyChart" style="width:100%; height:350px;"></div>
+                <div id="categoryChart" style="width:100%; height:350px;"></div>
+            </div>
+        </div>
+
+        <!-- 原始明细表 -->
+        <div class="day-card reveal reveal-delay-6" style="padding: 1.5rem; overflow-x: auto;">
+            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1rem; color:var(--charcoal);">
+                <i class="fa-solid fa-table"></i> 原始费用明细
+            </h3>
+            <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                <thead>
+                    <tr><th>日期</th><th>描述(CN)</th><th>分类</th><th>金额</th><th>币种</th><th>折算日元(JPY)</th><th>折算人民币(CNY)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>2026-05-02 00:00:00</td><td>出租（旅馆->浅草游船）</td><td>交通</td><td style="text-align:right;">2,100.00</td><td>JPY</td><td style="text-align:right;">¥2,100.00</td><td style="text-align:right;">¥91.29</td></tr>
+<tr><td>2026-05-02 00:00:00</td><td>浅草游船</td><td>门票</td><td style="text-align:right;">6,000.00</td><td>JPY</td><td style="text-align:right;">¥6,000.00</td><td style="text-align:right;">¥260.82</td></tr>
+<tr><td>2026-05-02 00:00:00</td><td>午餐(拉面)</td><td>餐饮</td><td style="text-align:right;">4,650.00</td><td>JPY</td><td style="text-align:right;">¥4,650.00</td><td style="text-align:right;">¥202.14</td></tr>
+<tr><td>2026-05-02 00:00:00</td><td>出租（拉面店->涉谷）</td><td>交通</td><td style="text-align:right;">6,200.00</td><td>JPY</td><td style="text-align:right;">¥6,200.00</td><td style="text-align:right;">¥269.51</td></tr>
+<tr><td>2026-05-02 00:00:00</td><td>涉谷Sky夜景门票</td><td>门票</td><td style="text-align:right;">570.00</td><td>CNY</td><td style="text-align:right;">¥13,112.28</td><td style="text-align:right;">¥570.00</td></tr>
+<tr><td>2026-05-02 00:00:00</td><td>晚饭(宫崎料理)</td><td>餐饮</td><td style="text-align:right;">10,260.00</td><td>JPY</td><td style="text-align:right;">¥10,260.00</td><td style="text-align:right;">¥446.00</td></tr>
+<tr><td>2026-05-03 00:00:00</td><td>午餐(海鲜饭)</td><td>餐饮</td><td style="text-align:right;">5,588.00</td><td>JPY</td><td style="text-align:right;">¥5,588.00</td><td style="text-align:right;">¥242.91</td></tr>
+<tr><td>2026-05-03 00:00:00</td><td>地铁站 晚餐前的咖啡</td><td>餐饮</td><td style="text-align:right;">1,880.00</td><td>JPY</td><td style="text-align:right;">¥1,880.00</td><td style="text-align:right;">¥81.72</td></tr>
+<tr><td>2026-05-03 00:00:00</td><td>出租（地铁站->晚餐饭店）</td><td>交通</td><td style="text-align:right;">1,880.00</td><td>JPY</td><td style="text-align:right;">¥1,880.00</td><td style="text-align:right;">¥81.72</td></tr>
+<tr><td>2026-05-03 00:00:00</td><td>晚饭(烤肉）</td><td>餐饮</td><td style="text-align:right;">16,870.00</td><td>JPY</td><td style="text-align:right;">¥16,870.00</td><td style="text-align:right;">¥733.34</td></tr>
+<tr><td>2026-05-03 00:00:00</td><td>椿山庄甜品(抹茶柚子蛋糕)</td><td>餐饮</td><td style="text-align:right;">2,850.00</td><td>JPY</td><td style="text-align:right;">¥2,850.00</td><td style="text-align:right;">¥123.89</td></tr>
+<tr><td>2026-05-03 00:00:00</td><td>出租（晚餐饭店->地铁站）</td><td>交通</td><td style="text-align:right;">1,400.00</td><td>JPY</td><td style="text-align:right;">¥1,400.00</td><td style="text-align:right;">¥60.86</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>门票(报国寺）</td><td>门票</td><td style="text-align:right;">1,200.00</td><td>JPY</td><td style="text-align:right;">¥1,200.00</td><td style="text-align:right;">¥52.16</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>功德钱</td><td>祈福</td><td style="text-align:right;">20.00</td><td>JPY</td><td style="text-align:right;">¥20.00</td><td style="text-align:right;">¥0.87</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>午餐(鲣鱼花盖饭)</td><td>餐饮</td><td style="text-align:right;">5,190.00</td><td>JPY</td><td style="text-align:right;">¥5,190.00</td><td style="text-align:right;">¥225.61</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>门票(长谷寺）</td><td>门票</td><td style="text-align:right;">1,200.00</td><td>JPY</td><td style="text-align:right;">¥1,200.00</td><td style="text-align:right;">¥52.16</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>烧香(长谷寺）</td><td>祈福</td><td style="text-align:right;">300.00</td><td>JPY</td><td style="text-align:right;">¥300.00</td><td style="text-align:right;">¥13.04</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>观音博物馆(长谷寺）</td><td>门票</td><td style="text-align:right;">1,000.00</td><td>JPY</td><td style="text-align:right;">¥1,000.00</td><td style="text-align:right;">¥43.47</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>门票(高德院大佛）</td><td>门票</td><td style="text-align:right;">1,200.00</td><td>JPY</td><td style="text-align:right;">¥1,200.00</td><td style="text-align:right;">¥52.16</td></tr>
+<tr><td>2026-05-04 00:00:00</td><td>晚饭(釜饭)</td><td>餐饮</td><td style="text-align:right;">13,190.00</td><td>JPY</td><td style="text-align:right;">¥13,190.00</td><td style="text-align:right;">¥573.37</td></tr>
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
 
     <!-- ==================== FOOTER ==================== -->
     <footer class="site-footer reveal reveal-delay-5">
@@ -1139,6 +1219,106 @@
             // ===== Hero entrance: reveal immediately =====
             // Hero elements should be visible from the start
             console.log('🌸 2026 东京春季旅行 itinerary loaded');
+
+        });
+    </script>
+
+    <!-- ==================== ECHARTS 图表脚本 ==================== -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ===== 每日费用柱状图 =====
+            var dailyChart = echarts.init(document.getElementById('dailyChart'));
+            var dailyOption = {
+                title: {
+                    text: '每日费用（JPY）',
+                    left: 'center',
+                    textStyle: { fontSize: 14, color: '#2D2D2D' }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        return params[0].name + '<br/>费用: ¥' + params[0].value.toLocaleString() + ' JPY';
+                    }
+                },
+                grid: { left: '8%', right: '8%', bottom: '15%', top: '20%' },
+                xAxis: {
+                    type: 'category',
+                    data: ["05/02", "05/03", "05/04"],
+                    axisLabel: { color: '#666' }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '日元 (JPY)',
+                    axisLabel: { formatter: '¥{value}' },
+                    splitLine: { lineStyle: { type: 'dashed', color: '#eee' } }
+                },
+                series: [{
+                    type: 'bar',
+                    data: [42322.28, 30468.0, 23300.0],
+                    itemStyle: {
+                        borderRadius: [6, 6, 0, 0],
+                        color: {
+                            type: 'linear',
+                            x: 0, y: 0, x2: 0, y2: 1,
+                            colorStops: [
+                                { offset: 0, color: '#F8A5B8' },
+                                { offset: 1, color: '#E8829A' }
+                            ]
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        formatter: '¥{c}',
+                        fontSize: 11
+                    }
+                }]
+            };
+            dailyChart.setOption(dailyOption);
+
+            // ===== 分类费用玫瑰图 =====
+            var categoryChart = echarts.init(document.getElementById('categoryChart'));
+            var categoryOption = {
+                title: {
+                    text: '分类费用占比',
+                    left: 'center',
+                    textStyle: { fontSize: 14, color: '#2D2D2D' }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        return params.name + '<br/>费用: ¥' + params.value.toLocaleString() + ' JPY<br/>占比: ' + params.percent.toFixed(1) + '%';
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    radius: ['20%', '70%'],
+                    center: ['50%', '55%'],
+                    roseType: 'area',
+                    itemStyle: {
+                        borderRadius: 4
+                    },
+                    label: {
+                        formatter: '{b}\n¥{c} ({d}%)',
+                        fontSize: 11
+                    },
+                    data: [
+                        { value: 11580.0, name: '交通', itemStyle: { color: '#F8A5B8' } },
+                        { value: 320.0, name: '祈福', itemStyle: { color: '#D4A574' } },
+                        { value: 23712.28, name: '门票', itemStyle: { color: '#667eea' } },
+                        { value: 60478.0, name: '餐饮', itemStyle: { color: '#43e97b' } },
+                    ]
+                }]
+            };
+            categoryChart.setOption(categoryOption);
+
+            // ===== 响应式 =====
+            window.addEventListener('resize', function() {
+                dailyChart.resize();
+                categoryChart.resize();
+            });
 
         });
     </script>

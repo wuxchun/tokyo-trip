@@ -1,0 +1,373 @@
+
+<!-- ==================== 旅游费用明细与结算 ==================== -->
+<section aria-label="旅游费用明细与结算" style="margin-top: 3rem;">
+    <h2 class="section-title reveal reveal-delay-5">
+        <i class="fa-solid fa-calculator"></i> 旅游费用明细与结算
+    </h2>
+
+    <!-- 费用结算区 -->
+    <div class="day-card reveal reveal-delay-5" style="padding: 1.5rem;">
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; text-align: center;">
+            <div style="flex: 1; min-width: 160px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; padding: 1.2rem; color: #fff;">
+                <div style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 0.3rem;">日元总计</div>
+                <div style="font-size: 1.8rem; font-weight: 900;">¥96,090</div>
+                <div style="font-size: 0.75rem; opacity: 0.7;">JPY</div>
+            </div>
+            <div style="flex: 1; min-width: 160px; background: linear-gradient(135deg, #F8A5B8 0%, #E8829A 100%); border-radius: 16px; padding: 1.2rem; color: #fff;">
+                <div style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 0.3rem;">人民币总计</div>
+                <div style="font-size: 1.8rem; font-weight: 900;">¥4,177.04</div>
+                <div style="font-size: 0.75rem; opacity: 0.7;">CNY</div>
+            </div>
+            <div style="flex: 1.5; min-width: 200px; background: linear-gradient(135deg, #FF6B6B 0%, #EE5A24 100%); border-radius: 16px; padding: 1.2rem; color: #fff; box-shadow: 0 4px 20px rgba(238, 90, 36, 0.3);">
+                <div style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 0.3rem;">💰 亲戚需转账金额</div>
+                <div style="font-size: 2rem; font-weight: 900;">¥2,784.69</div>
+                <div style="font-size: 0.75rem; opacity: 0.7;">CNY（总费用 × 2/3）</div>
+            </div>
+        </div>
+        <div style="margin-top: 1rem; padding: 0.8rem; background: #FFF8E1; border-radius: 12px; font-size: 0.85rem; color: #795548; text-align: center;">
+            <i class="fa-solid fa-info-circle"></i> 汇率：1 JPY = 0.04347 CNY（2026年5月2日） · 费用由我统一垫付，共3人分摊
+        </div>
+    </div>
+
+    <!-- 图表区 -->
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem;">
+        <!-- 柱状图 -->
+        <div class="day-card reveal reveal-delay-5" style="flex: 1 1 400px; padding: 1rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--charcoal);">
+                <i class="fa-solid fa-chart-bar" style="color: var(--sakura);"></i> 每日费用柱状图
+            </h3>
+            <div id="dailyChart" style="width: 100%; height: 350px;"></div>
+        </div>
+        <!-- 玫瑰图 -->
+        <div class="day-card reveal reveal-delay-5" style="flex: 1 1 400px; padding: 1rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--charcoal);">
+                <i class="fa-solid fa-chart-pie" style="color: var(--sakura);"></i> 分类费用占比（南丁格尔玫瑰图）
+            </h3>
+            <div id="categoryChart" style="width: 100%; height: 350px;"></div>
+        </div>
+    </div>
+
+    <!-- 原始明细表 -->
+    <div class="day-card reveal reveal-delay-5" style="padding: 1rem; margin-top: 1.5rem; overflow-x: auto;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; color: var(--charcoal);">
+            <i class="fa-solid fa-table" style="color: var(--sakura);"></i> 费用明细表
+        </h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+            <thead>
+                <tr style="background: var(--sakura-light);">
+                    <th style="padding: 0.6rem 0.8rem; text-align: left; border-bottom: 2px solid var(--sakura);">日期</th>
+                    <th style="padding: 0.6rem 0.8rem; text-align: left; border-bottom: 2px solid var(--sakura);">描述</th>
+                    <th style="padding: 0.6rem 0.8rem; text-align: left; border-bottom: 2px solid var(--sakura);">币种</th>
+                    <th style="padding: 0.6rem 0.8rem; text-align: right; border-bottom: 2px solid var(--sakura);">金额</th>
+                    <th style="padding: 0.6rem 0.8rem; text-align: right; border-bottom: 2px solid var(--sakura);">折算 JPY</th>
+                    <th style="padding: 0.6rem 0.8rem; text-align: right; border-bottom: 2px solid var(--sakura);">折算 CNY</th>
+                    <th style="padding: 0.6rem 0.8rem; text-align: left; border-bottom: 2px solid var(--sakura);">分类</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-02</td>
+                    <td style="padding: 0.5rem 0.8rem;">出租（旅馆->浅草游船）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">2,100</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥2,100.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥91.29</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">交通</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-02</td>
+                    <td style="padding: 0.5rem 0.8rem;">浅草游船</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">6,000</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥6,000.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥260.82</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">门票</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-02</td>
+                    <td style="padding: 0.5rem 0.8rem;">午餐(拉面)</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">4,650</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥4,650.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥202.14</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-02</td>
+                    <td style="padding: 0.5rem 0.8rem;">出租（拉面店->涉谷）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">6,200</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥6,200.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥269.51</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">交通</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-02</td>
+                    <td style="padding: 0.5rem 0.8rem;">涉谷Sky夜景门票</td>
+                    <td style="padding: 0.5rem 0.8rem;">CNY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">570</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥13,112.28</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥570.00</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">门票</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-02</td>
+                    <td style="padding: 0.5rem 0.8rem;">晚饭(宫崎料理)</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">10,260</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥10,260.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥446.00</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-03</td>
+                    <td style="padding: 0.5rem 0.8rem;">午餐(海鲜饭)</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">5,588</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥5,588.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥242.91</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-03</td>
+                    <td style="padding: 0.5rem 0.8rem;">地铁站 晚餐前的咖啡</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,880</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,880.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥81.72</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-03</td>
+                    <td style="padding: 0.5rem 0.8rem;">出租（地铁站->晚餐饭店）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,880</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,880.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥81.72</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">交通</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-03</td>
+                    <td style="padding: 0.5rem 0.8rem;">晚饭(烤肉）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">16,870</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥16,870.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥733.34</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-03</td>
+                    <td style="padding: 0.5rem 0.8rem;">椿山庄甜品(抹茶柚子蛋糕)</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">2,850</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥2,850.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥123.89</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-03</td>
+                    <td style="padding: 0.5rem 0.8rem;">出租（晚餐饭店->地铁站）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,400</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,400.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥60.86</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">交通</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">门票(报国寺）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,200</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,200.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥52.16</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">门票</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">功德钱</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">20</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥20.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥0.87</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">祈福</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">午餐(鲣鱼花盖饭)</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">5,190</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥5,190.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥225.61</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">门票(长谷寺）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,200</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,200.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥52.16</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">门票</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">烧香(长谷寺）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">300</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥300.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥13.04</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">祈福</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">观音博物馆(长谷寺）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,000</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,000.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥43.47</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">门票</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">门票(高德院大佛）</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">1,200</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥1,200.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥52.16</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">门票</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--light-gray);">
+                    <td style="padding: 0.5rem 0.8rem;">2026-05-04</td>
+                    <td style="padding: 0.5rem 0.8rem;">晚饭(釜饭)</td>
+                    <td style="padding: 0.5rem 0.8rem;">JPY</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">13,190</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥13,190.00</td>
+                    <td style="padding: 0.5rem 0.8rem; text-align: right;">¥573.37</td>
+                    <td style="padding: 0.5rem 0.8rem;"><span class="badge" style="background: var(--sakura-light); color: #B05A6F;">餐饮</span></td>
+                </tr>
+                <tr style="background: #FFF8E1; font-weight: 700;">
+                    <td colspan="4" style="padding: 0.6rem 0.8rem; text-align: right;">合计</td>
+                    <td style="padding: 0.6rem 0.8rem; text-align: right; color: #E8829A;">¥96,090.28</td>
+                    <td style="padding: 0.6rem 0.8rem; text-align: right; color: #E8829A;">¥4,177.04</td>
+                    <td style="padding: 0.6rem 0.8rem;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ECharts 图表脚本 -->
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ===== 每日费用柱状图 =====
+    var dailyChart = echarts.init(document.getElementById('dailyChart'));
+    var dailyOption = {
+        tooltip: {
+            trigger: 'axis',
+            formatter: function(params) {
+                var p = params[0];
+                return '<strong>' + p.axisValue + '</strong><br/>总费用：¥' + p.value.toLocaleString() + ' JPY';
+            }
+        },
+        grid: {
+            left: '8%',
+            right: '5%',
+            bottom: '12%',
+            top: '8%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: ["2026-05-02", "2026-05-03", "2026-05-04"],
+            axisLabel: {
+                fontSize: 12,
+                fontWeight: 'bold',
+                color: '#6B5B4F'
+            },
+            axisLine: { lineStyle: { color: '#E8E0D8' } }
+        },
+        yAxis: {
+            type: 'value',
+            name: '日元 (JPY)',
+            nameTextStyle: { color: '#6B5B4F', fontSize: 11 },
+            axisLabel: {
+                formatter: function(v) { return '¥' + v.toLocaleString(); },
+                color: '#6B5B4F'
+            },
+            splitLine: { lineStyle: { color: '#F0EBE5', type: 'dashed' } }
+        },
+        series: [{
+            type: 'bar',
+            data: [42322.28, 30468.0, 23300.0],
+            itemStyle: {
+                borderRadius: [6, 6, 0, 0],
+                color: {
+                    type: 'linear',
+                    x: 0, y: 0, x2: 0, y2: 1,
+                    colorStops: [
+                        { offset: 0, color: '#F8A5B8' },
+                        { offset: 1, color: '#E8829A' }
+                    ]
+                }
+            },
+            emphasis: {
+                itemStyle: {
+                    color: '#D4627A'
+                }
+            },
+            label: {
+                show: true,
+                position: 'top',
+                formatter: function(p) { return '¥' + p.value.toLocaleString(); },
+                fontSize: 10,
+                color: '#6B5B4F'
+            }
+        }]
+    };
+    dailyChart.setOption(dailyOption);
+    window.addEventListener('resize', function() { dailyChart.resize(); });
+
+    // ===== 分类费用玫瑰图 =====
+    var categoryChart = echarts.init(document.getElementById('categoryChart'));
+    var categoryOption = {
+        tooltip: {
+            trigger: 'item',
+            formatter: function(params) {
+                return '<strong>' + params.name + '</strong><br/>' +
+                       '费用：¥' + params.value.toLocaleString() + ' JPY<br/>' +
+                       '占比：' + params.percent + '%';
+            }
+        },
+        series: [{
+            type: 'pie',
+            radius: ['20%', '75%'],
+            center: ['50%', '50%'],
+            roseType: 'area',
+            itemStyle: {
+                borderRadius: 4,
+                borderColor: '#fff',
+                borderWidth: 2
+            },
+            label: {
+                formatter: function(p) { return p.name + '\n¥' + p.value.toLocaleString(); },
+                fontSize: 11,
+                fontWeight: 'bold',
+                color: '#2D2D2D'
+            },
+            labelLine: {
+                lineStyle: { color: '#E8E0D8' }
+            },
+            data: [
+                { value: 60478.0, name: '餐饮' },
+                { value: 23712.28, name: '门票' },
+                { value: 11580.0, name: '交通' },
+                { value: 320.0, name: '祈福' }
+            ],
+            color: ['#F8A5B8', '#667eea', '#FFD93D', '#6BCB77', '#FF6B6B', '#A66CFF', '#FF9F43']
+        }]
+    };
+    categoryChart.setOption(categoryOption);
+    window.addEventListener('resize', function() { categoryChart.resize(); });
+});
+</script>
